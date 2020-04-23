@@ -4,4 +4,4 @@ ADD target/TodoShare.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run", "production"]
+CMD ["catalina.sh", "run"]
