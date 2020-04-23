@@ -66,7 +66,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<finalName>TodoShare</finalName>
+					</configuration>
 				<version>2.2.6.RELEASE</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<path>/</path>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
