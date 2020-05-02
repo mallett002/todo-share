@@ -1,8 +1,6 @@
-package com.task.todoshare.bean;
+package com.task.todoshare;
 
-import java.io.Serializable;
-
-public class TodoRequestBody implements Serializable {
+public class TodoDTO {
     String message;
     Boolean isCompleted;
     String userId;
