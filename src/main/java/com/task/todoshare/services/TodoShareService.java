@@ -1,10 +1,8 @@
 package com.task.todoshare.services;
 
-import com.task.todoshare.TodoDTO;
+import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
 import com.task.todoshare.repository.TodoShareRepository;
-import com.task.todoshare.requestBody.TodoRequestBody;
-import com.task.todoshare.responseBody.TodoCreationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,20 +14,34 @@ public class TodoShareService {
     TodoShareRepository todoShareRepository;
 
     private TodoDTO mapToDTO(TodoEntity todoEntity) {
-//        TodoCreationResponse response = new TodoCreationResponse();
-//
-//        response.setMessage(todo.getMessage());
-//        response.setId(todo.getId());
-//        response.
-//
-//        return response;
-        return new TodoDTO();
+        TodoDTO dto = new TodoDTO();
+
+        dto.setId(todoEntity.getId());
+        dto.setMessage(todoEntity.getMessage());
+        dto.setCompleted(todoEntity.getCompleted());
+        dto.setUserId(todoEntity.getUserId());
+        dto.setPrivate(todoEntity.getPrivate());
+        dto.setDueDate(todoEntity.getDueDate());
+
+        return dto;
+    }
+
+    private TodoEntity mapToEntity(TodoDTO dto) {
+        TodoEntity todoEntity = new TodoEntity();
+
+        todoEntity.setMessage(dto.getMessage());
+        todoEntity.setCompleted(dto.getCompleted());
+        todoEntity.setUserId(dto.getUserId());
+        todoEntity.setPrivate(dto.getPrivate());
+        todoEntity.setDueDate(dto.getDueDate());
+
+        return todoEntity;
     }
 
     public TodoDTO createTodo(TodoDTO postDTO) {
-        // Call repository with the body
-        TodoEntity todoEntity = todoShareRepository.persistNewTodo(postDTO);
-        // map repository's response to TodoCreationResponse
-        return mapToDTO(todoEntity);
+        TodoEntity entityToPersist = mapToEntity(postDTO);
+        TodoEntity persistedEntity = todoShareRepository.persistNewTodo(entityToPersist);
+
+        return mapToDTO(persistedEntity);
     }
 }

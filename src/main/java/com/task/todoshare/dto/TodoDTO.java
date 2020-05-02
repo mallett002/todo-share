@@ -1,11 +1,20 @@
-package com.task.todoshare;
+package com.task.todoshare.dto;
 
 public class TodoDTO {
+    int id; // auto created by db
     String message;
     Boolean isCompleted;
     String userId;
     Boolean isPrivate;
     String dueDate;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMessage() {
         return message;
