@@ -3,9 +3,9 @@ package com.task.todoshare.dto;
 public class TodoDTO {
     int id; // auto created by db
     String message;
-    Boolean isCompleted;
+    boolean isCompleted;
     String userId;
-    Boolean isPrivate;
+    boolean isPrivate;
     String dueDate;
 
     public int getId() {
@@ -24,11 +24,11 @@ public class TodoDTO {
         this.message = message;
     }
 
-    public Boolean getCompleted() {
+    public boolean getCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(Boolean completed) {
+    public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
 
@@ -40,11 +40,11 @@ public class TodoDTO {
         this.userId = userId;
     }
 
-    public Boolean getPrivate() {
+    public boolean getPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
+    public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
@@ -54,5 +54,17 @@ public class TodoDTO {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    @Override
+    public String toString() {
+        return "TodoDTO{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", isCompleted=" + isCompleted +
+                ", userId='" + userId + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", dueDate='" + dueDate + '\'' +
+                '}';
     }
 }

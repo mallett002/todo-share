@@ -3,11 +3,12 @@ package com.task.todoshare.model;
 //@Entity
 // Hibernate stuff
 public class TodoEntity {
-
     int id;
     String message;
-    Boolean isCompleted;
+    boolean isCompleted;
     String userId;
+    boolean isPrivate;
+    String dueDate;
 
     public int getId() {
         return id;
@@ -25,11 +26,11 @@ public class TodoEntity {
         this.message = message;
     }
 
-    public Boolean getCompleted() {
+    public boolean getCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(Boolean completed) {
+    public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
 
@@ -41,11 +42,11 @@ public class TodoEntity {
         this.userId = userId;
     }
 
-    public Boolean getPrivate() {
+    public boolean getPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
+    public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
@@ -57,6 +58,15 @@ public class TodoEntity {
         this.dueDate = dueDate;
     }
 
-    Boolean isPrivate;
-    String dueDate;
+    @Override
+    public String toString() {
+        return "TodoEntity{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", isCompleted=" + isCompleted +
+                ", userId='" + userId + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", dueDate='" + dueDate + '\'' +
+                '}';
+    }
 }
