@@ -42,11 +42,8 @@ public class TodoShareService {
     }
 
     public TodoDTO createTodo(TodoDTO postDTO) {
-        System.out.println(postDTO.toString());
         TodoEntity entityToPersist = mapToEntity(postDTO);
-        System.out.println(entityToPersist.toString());
         TodoEntity persistedEntity = todoShareRepository.persistNewTodo(entityToPersist);
-        System.out.println(persistedEntity.toString());
 
         return mapToDTO(persistedEntity);
     }
