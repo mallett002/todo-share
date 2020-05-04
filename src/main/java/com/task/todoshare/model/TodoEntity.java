@@ -1,13 +1,32 @@
 package com.task.todoshare.model;
 
-//@Entity
-// Hibernate stuff
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_todo")
 public class TodoEntity {
+
+    @Id
+    @GeneratedValue
     int id;
+
+    @Column(name = "message")
     String message;
+
+    @Column(name = "completed")
     boolean isCompleted;
+
+    @Column(name = "user_id")
     String userId;
+
+    @Column(name = "private")
     boolean isPrivate;
+
+    @Column(name = "due_date")
     String dueDate;
 
     public int getId() {

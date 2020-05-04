@@ -2,19 +2,16 @@ package com.task.todoshare.services;
 
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
-import com.task.todoshare.repository.TodoShareRepository;
+import com.task.todoshare.repository.TodoShareRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLOutput;
-import java.util.stream.Stream;
 
 // hibernate client (uses entityManager)
 @Service
 public class TodoShareService {
 
     @Autowired
-    TodoShareRepository todoShareRepository;
+    TodoShareRepositoryImpl todoShareRepository;
 
     private TodoDTO mapToDTO(TodoEntity todoEntity) {
         TodoDTO dto = new TodoDTO();
@@ -43,7 +40,7 @@ public class TodoShareService {
 
     public TodoDTO createTodo(TodoDTO postDTO) {
         TodoEntity entityToPersist = mapToEntity(postDTO);
-        TodoEntity persistedEntity = todoShareRepository.persistNewTodo(entityToPersist);
+        TodoEntity persistedEntity = todoShareRepository.save(entityToPersist);
 
         return mapToDTO(persistedEntity);
     }

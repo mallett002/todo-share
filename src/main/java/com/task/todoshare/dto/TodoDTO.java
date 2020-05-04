@@ -1,7 +1,7 @@
 package com.task.todoshare.dto;
 
 public class TodoDTO {
-    int id; // auto created by db
+    int id;
     String message;
     boolean isCompleted;
     String userId;
