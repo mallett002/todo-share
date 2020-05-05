@@ -21,4 +21,6 @@ public class TodoShareControllerRest {
 
         return ResponseEntity.ok(response);
     }
+
+    // @RequestParam for query params & @PathVariable for path variables
 }

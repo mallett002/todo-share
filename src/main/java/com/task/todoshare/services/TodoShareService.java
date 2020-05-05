@@ -2,7 +2,7 @@ package com.task.todoshare.services;
 
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
-import com.task.todoshare.repository.TodoShareRepositoryImpl;
+import com.task.todoshare.repository.TodoShareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class TodoShareService {
 
     @Autowired
-    TodoShareRepositoryImpl todoShareRepository;
+    TodoShareRepository todoShareRepository;
 
     private TodoDTO mapToDTO(TodoEntity todoEntity) {
         TodoDTO dto = new TodoDTO();

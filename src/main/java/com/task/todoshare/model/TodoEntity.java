@@ -1,18 +1,14 @@
 package com.task.todoshare.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_todo")
 public class TodoEntity {
 
     @Id
-    @GeneratedValue
-    int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
     @Column(name = "message")
     String message;
@@ -29,11 +25,11 @@ public class TodoEntity {
     @Column(name = "due_date")
     String dueDate;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

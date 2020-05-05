@@ -1,18 +1,18 @@
 package com.task.todoshare.dto;
 
 public class TodoDTO {
-    int id;
+    Long id;
     String message;
     boolean isCompleted;
     String userId;
     boolean isPrivate;
     String dueDate;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
