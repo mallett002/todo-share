@@ -6,6 +6,8 @@ import com.task.todoshare.repository.TodoShareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 // hibernate client (uses entityManager)
 @Service
 public class TodoShareService {
@@ -44,4 +46,10 @@ public class TodoShareService {
 
         return mapToDTO(persistedEntity);
     }
+
+//    public Optional<TodoEntity> getTodo(Long id) {
+//        Optional<TodoEntity> todoEntity = todoShareRepository.findById(id);
+//
+//        return mapToDTO(todoEntity);
+//    }
 }
