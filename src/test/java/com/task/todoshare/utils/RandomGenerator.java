@@ -1,6 +1,6 @@
 package com.task.todoshare.utils;
 
-//import com.task.todoshare.requestBody.TodoRequestBody;
+import com.task.todoshare.dto.TodoDTO;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDateTime;
@@ -31,14 +31,14 @@ public class RandomGenerator {
         return RandomStringUtils.random(15, true, true);
     }
 
-//    public TodoRequestBody createNewTodo(String newTodoMessage) {
-//        TodoRequestBody body = new TodoRequestBody();
-//        body.setMessage(newTodoMessage);
-//        body.setCompleted(createRandomBool());
-//        body.setUserId(createRandomString());
-//        body.setPrivate(createRandomBool());
-//        body.setDueDate(getRandomDate());
-//
-//        return body;
-//    }
+    public TodoDTO createNewTodo(String newTodoMessage) {
+        TodoDTO body = new TodoDTO();
+        body.setMessage(newTodoMessage);
+        body.setCompleted(createRandomBool());
+        body.setUserId(createRandomString());
+        body.setPrivate(createRandomBool());
+        body.setDueDate(getRandomDate());
+
+        return body;
+    }
 }

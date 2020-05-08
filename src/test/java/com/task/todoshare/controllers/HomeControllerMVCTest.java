@@ -16,22 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//public class HomeControllerMVCTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @Test
-//    public void shouldReturnDefaultMessage() throws Exception {
-//        mockMvc.perform(get("/"))
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andExpect(content().string(containsString("Welcome home!")));
-//    }
-//}
-
 // Simplified with WebMvcTest:
 @WebMvcTest(HomeController.class)
 public class HomeControllerMVCTest {
@@ -44,14 +28,14 @@ public class HomeControllerMVCTest {
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-//        String greeting = "Hello world!";
-//
-//        when(service.greet())
-//            .thenReturn(greeting);
-//
-//        mockMvc.perform(get("/"))
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andExpect(content().string(containsString(greeting)));
+        String greeting = "Hello world!";
+
+        when(service.greet())
+            .thenReturn(greeting);
+
+        mockMvc.perform(get("/"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString(greeting)));
     }
 }

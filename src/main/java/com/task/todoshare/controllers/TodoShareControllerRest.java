@@ -25,11 +25,9 @@ public class TodoShareControllerRest {
     public ResponseEntity<TodoDTO> getTodoById(@PathVariable Long id) {
         TodoDTO response = todoShareService.findById(id);
         if (response == null) {
-            System.out.println("didn't find one with id " + id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        System.out.println("found one: " + response.toString());
         return ResponseEntity.ok(response);
     }
 

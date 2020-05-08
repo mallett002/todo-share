@@ -1,6 +1,6 @@
-//package com.task.todoshare.controllers;
+package com.task.todoshare.controllers;
 
-//import com.task.todoshare.requestBody.TodoRequestBody;
+import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.services.GreetingService;
 import com.task.todoshare.services.TodoShareService;
 import com.task.todoshare.utils.RandomGenerator;
@@ -21,31 +21,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest(TodoShareControllerRest.class)
-//@ExtendWith(MockitoExtension.class)
-//public class TodoShareControllerRestTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private TodoShareService service;
-//
-//    TodoRequestBody todoRequestBody;
-//
-//    @BeforeEach
-//    private void createTodoRequestBody() {
-//        todoRequestBody = generator.createNewTodo(generator.createRandomString());
-//    }
-//
-//    RandomGenerator generator = new RandomGenerator();
-//
-//    @Test
-//    public void shouldCallServiceWithRequestBody() throws Exception {
-////        when(service.createTodo(todoRequestBody))
-////            .thenReturn(message);
-////
-////        mockMvc.perform(post("/todo/create", todoRequestBody))
-////            .andExpect(status().isOk());
-//    }
-//}
+@WebMvcTest(TodoShareControllerRest.class)
+@ExtendWith(MockitoExtension.class)
+public class TodoShareControllerRestTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private TodoShareService service;
+
+    TodoDTO todoDTO;
+
+    @BeforeEach
+    private void createTodoRequestBody() {
+        todoDTO = generator.createNewTodo(generator.createRandomString());
+    }
+
+    RandomGenerator generator = new RandomGenerator();
+
+    @Test
+    public void shouldCallServiceWithRequestBody() throws Exception {
+        when(service.createTodo(todoDTO)).thenReturn(todoDTO);
+
+        mockMvc.perform(post("/todos", todoDTO))
+            .andExpect(status().isOk());
+    }
+}
