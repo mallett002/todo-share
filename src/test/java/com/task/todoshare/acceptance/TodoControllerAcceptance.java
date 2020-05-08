@@ -24,8 +24,8 @@ public class TodoControllerAcceptance {
 
     String createTodoEndpoint = "/todo/create";
 
-//    @Test
-//    public void shouldCreateTodo() throws Exception {
+    @Test
+    public void shouldCreateTodo() throws Exception {
 //        TodoRequestBody body = randomGenerator.createNewTodo("This is a test todo");
 //        HttpEntity<TodoRequestBody> entity = new HttpEntity<>(body, headers);
 //
@@ -40,7 +40,8 @@ public class TodoControllerAcceptance {
 //        assertEquals(body.getMessage(), Objects.requireNonNull(response.getBody()).getMessage());
 //    }
 
-    private String createURLWithPort(String uri) {
-        return "http://localhost:" + port + uri;
+//        private String createURLWithPort(String uri) {
+//            return "http://localhost:" + port + uri;
+//        }
     }
 }
