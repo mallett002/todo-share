@@ -47,9 +47,13 @@ public class TodoShareService {
         return mapToDTO(persistedEntity);
     }
 
-//    public Optional<TodoEntity> getTodo(Long id) {
-//        Optional<TodoEntity> todoEntity = todoShareRepository.findById(id);
-//
-//        return mapToDTO(todoEntity);
-//    }
+    public TodoDTO findById(Long id) {
+        Optional<TodoEntity> todoEntity = todoShareRepository.findById(id);
+
+        if (todoEntity.isPresent()) {
+            return mapToDTO(todoEntity.get());
+        }
+
+        return null;
+    }
 }
