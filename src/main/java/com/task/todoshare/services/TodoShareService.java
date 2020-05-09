@@ -3,7 +3,9 @@ package com.task.todoshare.services;
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
 import com.task.todoshare.repository.TodoShareRepository;
+import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -48,12 +50,9 @@ public class TodoShareService {
     }
 
     public TodoDTO findById(Long id) {
-        Optional<TodoEntity> todoEntity = todoShareRepository.findById(id);
+        TodoEntity todoEntity = todoShareRepository.findById(id)
+            .orElseThrow(() -> new TodoNotFoundException(id));
 
-        if (todoEntity.isPresent()) {
-            return mapToDTO(todoEntity.get());
-        }
-
-        return null;
+        return mapToDTO(todoEntity);
     }
 }

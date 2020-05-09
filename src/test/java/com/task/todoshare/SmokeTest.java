@@ -16,6 +16,6 @@ public class SmokeTest {
 
     @Test
     public void contextLoads() throws Exception {
-//        assertThat(controller).isNotNull();
+        assertThat(controller).isNotNull();
     }
 }
