@@ -4,19 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.services.TodoShareService;
 import com.task.todoshare.utils.RandomGenerator;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -35,13 +31,13 @@ public class TodoShareControllerRestTest {
     private TodoShareService service;
 
     RandomGenerator generator = new RandomGenerator();
+    ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void shouldCallServiceWithRequestBody() throws Exception {
-        Long id = 1234L;
         String message = generator.createRandomString();
         TodoDTO createdDTO = generator.createNewTodo(message);
-        createdDTO.setId(id);
+        createdDTO.setId(1L);
 
         when(service.createTodo(any(TodoDTO.class)))
                 .thenReturn(createdDTO);
@@ -54,7 +50,7 @@ public class TodoShareControllerRestTest {
             .content(json)
             .characterEncoding("utf-8"))
                 .andExpect(status().isCreated())
-                .andExpect(content().json().equals(createdDTO)) // TODO: FIX THIS content()
+                .andExpect(MockMvcResultMatchers.content().json(json))
                 .andReturn();
     }
 }
