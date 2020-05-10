@@ -55,4 +55,13 @@ public class TodoShareService {
 
         return mapToDTO(todoEntity);
     }
+
+    public TodoDTO updateTodo(Long id, TodoDTO updateDTO) {
+        TodoEntity todoEntity = todoShareRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
+
+        // TODO: update the retrieved one with the new one
+        // for now:
+        return updateDTO;
+    }
 }

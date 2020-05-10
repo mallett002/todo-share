@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 public class TodoShareControllerRest {
     final String postEndpoint = "/todos";
+    final String byIdEndpoint = "/todos/{id}";
 
     @Autowired
     TodoShareService todoShareService;
@@ -26,9 +27,18 @@ public class TodoShareControllerRest {
         return ResponseEntity.created(uriComponents.toUri()).body(response);
     }
 
-    @GetMapping(value = "/todos/{id}")
+    @GetMapping(value = byIdEndpoint)
     public ResponseEntity<TodoDTO> getTodoById(@PathVariable Long id) {
         TodoDTO response = todoShareService.findById(id);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping(value = byIdEndpoint, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TodoDTO> updateTodo(
+        @RequestBody TodoDTO todoDTO,
+        @PathVariable Long id) {
+        TodoDTO response = todoShareService.updateTodo(id, todoDTO);
 
         return ResponseEntity.ok(response);
     }
