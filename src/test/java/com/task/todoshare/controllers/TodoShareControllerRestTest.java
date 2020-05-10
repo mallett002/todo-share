@@ -1,5 +1,6 @@
 package com.task.todoshare.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.services.TodoShareService;
@@ -16,8 +17,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TodoShareControllerRest.class)
@@ -34,7 +35,7 @@ public class TodoShareControllerRestTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void shouldCallServiceWithRequestBody() throws Exception {
+    public void shouldCreateNewTodo() throws Exception {
         String message = generator.createRandomString();
         TodoDTO createdDTO = generator.createNewTodo(message);
         createdDTO.setId(1L);
@@ -42,15 +43,31 @@ public class TodoShareControllerRestTest {
         when(service.createTodo(any(TodoDTO.class)))
                 .thenReturn(createdDTO);
 
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(createdDTO);
-
         mockMvc.perform(post("/todos")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(json)
+            .content(converToJson(createdDTO))
             .characterEncoding("utf-8"))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(json))
+                .andExpect(MockMvcResultMatchers.content().json(converToJson(createdDTO)))
                 .andReturn();
+    }
+
+    @Test
+    public void shouldGetATodoById() throws Exception {
+        Long id = 1L;
+        String message = generator.createRandomString();
+        TodoDTO todoDTO = generator.createNewTodo(message);
+        todoDTO.setId(id);
+
+        when(service.findById(id))
+                .thenReturn(todoDTO);
+
+        mockMvc.perform(get("/todos/" + id))
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(converToJson(todoDTO)));
+    }
+
+    private String converToJson(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
     }
 }
