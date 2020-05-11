@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HomeControllerRestTest {
 
-//    @LocalServerPort
-//    private int port;
-//
-//    @Autowired
-//    private TestRestTemplate restTemplate;
-//
-//    @Test
-//    public void shouldReturnDefaultMessage() throws Exception {
-//        assertThat(restTemplate.getForObject("http://localhost:" + port + "/", String.class).contains("Welcome home!"));
-//    }
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Test
+    public void shouldReturnDefaultMessage() throws Exception {
+        assertThat(restTemplate.getForObject("http://localhost:" + port + "/", String.class).contains("Hello world"));
+    }
 }

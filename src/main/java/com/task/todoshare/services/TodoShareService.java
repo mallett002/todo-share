@@ -3,7 +3,9 @@ package com.task.todoshare.services;
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
 import com.task.todoshare.repository.TodoShareRepository;
+import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -48,12 +50,23 @@ public class TodoShareService {
     }
 
     public TodoDTO findById(Long id) {
-        Optional<TodoEntity> todoEntity = todoShareRepository.findById(id);
+        TodoEntity todoEntity = todoShareRepository.findById(id)
+            .orElseThrow(() -> new TodoNotFoundException(id));
 
-        if (todoEntity.isPresent()) {
-            return mapToDTO(todoEntity.get());
-        }
+        return mapToDTO(todoEntity);
+    }
 
-        return null;
+    public TodoDTO updateTodo(Long id, TodoDTO updateDTO) {
+        TodoEntity todoEntity = todoShareRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
+
+        todoEntity.setMessage(updateDTO.getMessage());
+        todoEntity.setCompleted(updateDTO.getCompleted());
+        todoEntity.setPrivate(updateDTO.getPrivate());
+        todoEntity.setDueDate(updateDTO.getDueDate());
+
+        TodoEntity persistedEntity = todoShareRepository.save(todoEntity);
+
+        return mapToDTO(persistedEntity);
     }
 }

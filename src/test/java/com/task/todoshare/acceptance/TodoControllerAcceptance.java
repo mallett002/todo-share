@@ -1,6 +1,8 @@
 package com.task.todoshare.acceptance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.utils.RandomGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +24,26 @@ public class TodoControllerAcceptance {
     RandomGenerator randomGenerator = new RandomGenerator();
     HttpHeaders headers = new HttpHeaders();
 
-    String createTodoEndpoint = "/todo/create";
+    String createTodoEndpoint = "/todos";
 
     @Test
     public void shouldCreateTodo() throws Exception {
-//        TodoRequestBody body = randomGenerator.createNewTodo("This is a test todo");
-//        HttpEntity<TodoRequestBody> entity = new HttpEntity<>(body, headers);
-//
-//        ResponseEntity<TodoCreationResponse> response = restTemplate.exchange(
-//            createURLWithPort(createTodoEndpoint),
-//            HttpMethod.POST,
-//            entity,
-//            TodoCreationResponse.class
-//        );
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(body.getMessage(), Objects.requireNonNull(response.getBody()).getMessage());
-//    }
+        TodoDTO body = randomGenerator.createNewTodo("This is a test todo");
+        HttpEntity<TodoDTO> entity = new HttpEntity<>(body, headers);
 
-//        private String createURLWithPort(String uri) {
-//            return "http://localhost:" + port + uri;
-//        }
+        ResponseEntity<TodoDTO> response = restTemplate.exchange(
+            createURLWithPort(createTodoEndpoint),
+            HttpMethod.POST,
+            entity,
+            TodoDTO.class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(body.getMessage(), Objects.requireNonNull(response.getBody()).getMessage());
     }
+
+    private String createURLWithPort(String uri) {
+        return "http://localhost:" + port + uri;
+    }
+
 }
