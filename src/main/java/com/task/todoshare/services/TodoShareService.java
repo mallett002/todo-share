@@ -60,8 +60,13 @@ public class TodoShareService {
         TodoEntity todoEntity = todoShareRepository.findById(id)
                 .orElseThrow(() -> new TodoNotFoundException(id));
 
-        // TODO: update the retrieved one with the new one
-        // for now:
-        return updateDTO;
+        todoEntity.setMessage(updateDTO.getMessage());
+        todoEntity.setCompleted(updateDTO.getCompleted());
+        todoEntity.setPrivate(updateDTO.getPrivate());
+        todoEntity.setDueDate(updateDTO.getDueDate());
+
+        TodoEntity persistedEntity = todoShareRepository.save(todoEntity);
+
+        return mapToDTO(persistedEntity);
     }
 }

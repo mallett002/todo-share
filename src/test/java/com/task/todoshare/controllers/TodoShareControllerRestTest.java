@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,17 +65,15 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldUpdateATodo() throws Exception { // TODO: fix this test
-        TodoDTO todoDTO = buildNewTodoDTO();
-        Long id = todoDTO.getId();
-
+        TodoDTO createdDTO = buildNewTodoDTO();
         TodoDTO updatedDTO = buildNewTodoDTO();
 
-        when(service.updateTodo(id, todoDTO))
+        when(service.updateTodo(eq(1L), any(TodoDTO.class)))
                 .thenReturn(updatedDTO);
 
-        mockMvc.perform(put("/todos/" + id)
+        mockMvc.perform(put("/todos/" + 1L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertToJson(todoDTO))
+                .content(convertToJson(createdDTO))
                 .characterEncoding("utf-8"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(convertToJson(updatedDTO)))
