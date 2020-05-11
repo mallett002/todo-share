@@ -41,4 +41,11 @@ public class TodoShareControllerRest {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping(value = "/todos/{id}")
+    public ResponseEntity<Long> deleteTodo(@PathVariable Long id) {
+        todoShareService.deleteTodo(id);
+
+        return ResponseEntity.ok(id);
+    }
+
 }

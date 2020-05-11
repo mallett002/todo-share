@@ -69,4 +69,11 @@ public class TodoShareService {
 
         return mapToDTO(persistedEntity);
     }
+
+    public void deleteTodo(Long id) {
+        todoShareRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id));
+
+        todoShareRepository.deleteById(id);
+    }
 }
