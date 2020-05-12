@@ -46,8 +46,7 @@ public class TodoShareControllerRestTest {
             .content(convertToJson(createdDTO))
             .characterEncoding("utf-8"))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(convertToJson(createdDTO)))
-                .andReturn();
+                .andExpect(MockMvcResultMatchers.content().json(convertToJson(createdDTO)));
     }
 
     @Test
@@ -64,7 +63,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    public void shouldUpdateATodo() throws Exception { // TODO: fix this test
+    public void shouldUpdateATodo() throws Exception {
         TodoDTO createdDTO = buildNewTodoDTO();
         TodoDTO updatedDTO = buildNewTodoDTO();
 
@@ -76,8 +75,14 @@ public class TodoShareControllerRestTest {
                 .content(convertToJson(createdDTO))
                 .characterEncoding("utf-8"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(convertToJson(updatedDTO)))
-                .andReturn();
+                .andExpect(MockMvcResultMatchers.content().json(convertToJson(updatedDTO)));
+    }
+
+    @Test
+    public void shouldDeleteATodo() throws Exception {
+        mockMvc.perform(delete("/todos/" + 1L))
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(convertToJson(1L)));
     }
 
     private String convertToJson(Object object) throws JsonProcessingException {
