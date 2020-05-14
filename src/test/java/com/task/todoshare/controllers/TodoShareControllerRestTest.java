@@ -37,7 +37,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldCreateNewTodo() throws Exception {
-        TodoDTO createdDTO = buildNewTodoDTO();
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
 
         when(service.createTodo(any(TodoDTO.class)))
                 .thenReturn(createdDTO);
@@ -52,7 +52,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldGetATodoById() throws Exception {
-        TodoDTO todoDTO = buildNewTodoDTO();
+        TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
 
         when(service.findById(id))
@@ -65,7 +65,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
-        TodoDTO todoDTO = buildNewTodoDTO();
+        TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
 
         when(service.findById(id))
@@ -79,8 +79,8 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldUpdateATodo() throws Exception {
-        TodoDTO createdDTO = buildNewTodoDTO();
-        TodoDTO updatedDTO = buildNewTodoDTO();
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
+        TodoDTO updatedDTO = generator.buildNewTodoDTO();
 
         when(service.updateTodo(eq(1L), any(TodoDTO.class)))
                 .thenReturn(updatedDTO);
@@ -95,7 +95,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
-        TodoDTO createdDTO = buildNewTodoDTO();
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
         Long id = createdDTO.getId();
 
         when(service.updateTodo(eq(id), any(TodoDTO.class)))
@@ -137,15 +137,5 @@ public class TodoShareControllerRestTest {
 
     private String convertToJson(Object object) throws JsonProcessingException {
         return mapper.writeValueAsString(object);
-    }
-
-    private TodoDTO buildNewTodoDTO() {
-        Long id = 1L;
-        String message = generator.createRandomString();
-
-        TodoDTO todoDTO = generator.createNewTodo(message);
-        todoDTO.setId(id);
-
-        return todoDTO;
     }
 }

@@ -41,4 +41,14 @@ public class RandomGenerator {
 
         return body;
     }
+
+    public TodoDTO buildNewTodoDTO() {
+        Long id = 1L;
+        String message = createRandomString();
+
+        TodoDTO todoDTO = createNewTodo(message);
+        todoDTO.setId(id);
+
+        return todoDTO;
+    }
 }
