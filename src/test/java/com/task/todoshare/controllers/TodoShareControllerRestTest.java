@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.services.TodoShareService;
 import com.task.todoshare.utils.RandomGenerator;
+import com.task.todoshare.utils.TodoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,7 +37,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldCreateNewTodo() throws Exception {
-        TodoDTO createdDTO = buildNewTodoDTO();
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
 
         when(service.createTodo(any(TodoDTO.class)))
                 .thenReturn(createdDTO);
@@ -51,7 +52,7 @@ public class TodoShareControllerRestTest {
 
     @Test
     public void shouldGetATodoById() throws Exception {
-        TodoDTO todoDTO = buildNewTodoDTO();
+        TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
 
         when(service.findById(id))
@@ -63,9 +64,23 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
+        TodoDTO todoDTO = generator.buildNewTodoDTO();
+        Long id = todoDTO.getId();
+
+        when(service.findById(id))
+                .thenThrow(new TodoNotFoundException(id));
+
+        mockMvc.perform(get("/todos/" + id))
+            .andExpect(status().isNotFound())
+            .andExpect(MockMvcResultMatchers
+                .content().string("Could not find todo item with id " + id));
+    }
+
+    @Test
     public void shouldUpdateATodo() throws Exception {
-        TodoDTO createdDTO = buildNewTodoDTO();
-        TodoDTO updatedDTO = buildNewTodoDTO();
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
+        TodoDTO updatedDTO = generator.buildNewTodoDTO();
 
         when(service.updateTodo(eq(1L), any(TodoDTO.class)))
                 .thenReturn(updatedDTO);
@@ -79,23 +94,48 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
+        TodoDTO createdDTO = generator.buildNewTodoDTO();
+        Long id = createdDTO.getId();
+
+        when(service.updateTodo(eq(id), any(TodoDTO.class)))
+                .thenThrow(new TodoNotFoundException(id));
+
+        mockMvc.perform(put("/todos/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertToJson(createdDTO))
+                .characterEncoding("utf-8"))
+                .andExpect(status().isNotFound())
+                .andExpect(MockMvcResultMatchers
+                        .content().string("Could not find todo item with id " + id));
+    }
+
+    @Test
     public void shouldDeleteATodo() throws Exception {
-        mockMvc.perform(delete("/todos/" + 1L))
+        Long id = 1L;
+
+        when(service.deleteTodo(id))
+                .thenReturn(id);
+
+        mockMvc.perform(delete("/todos/" + id))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(convertToJson(1L)));
+            .andExpect(MockMvcResultMatchers.content().json(convertToJson(id)));
+    }
+
+    @Test
+    public void shouldNotFoundWhenDeleteTodoNotFindingById() throws Exception {
+        Long id = 1L;
+
+        when(service.deleteTodo(id))
+                .thenThrow(new TodoNotFoundException(id));
+
+        mockMvc.perform(delete("/todos/" + id))
+                .andExpect(status().isNotFound())
+                .andExpect(MockMvcResultMatchers
+                        .content().string("Could not find todo item with id " + id));
     }
 
     private String convertToJson(Object object) throws JsonProcessingException {
         return mapper.writeValueAsString(object);
-    }
-
-    private TodoDTO buildNewTodoDTO() {
-        Long id = 1L;
-        String message = generator.createRandomString();
-
-        TodoDTO todoDTO = generator.createNewTodo(message);
-        todoDTO.setId(id);
-
-        return todoDTO;
     }
 }

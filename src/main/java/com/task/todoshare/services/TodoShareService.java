@@ -5,12 +5,8 @@ import com.task.todoshare.model.TodoEntity;
 import com.task.todoshare.repository.TodoShareRepository;
 import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-// hibernate client (uses entityManager)
 @Service
 public class TodoShareService {
 
@@ -70,10 +66,12 @@ public class TodoShareService {
         return mapToDTO(persistedEntity);
     }
 
-    public void deleteTodo(Long id) {
-        todoShareRepository.findById(id)
-                .orElseThrow(() -> new TodoNotFoundException(id));
+    public Long deleteTodo(Long id) {
+        Long foundId = todoShareRepository.findById(id)
+                .orElseThrow(() -> new TodoNotFoundException(id)).getId();
 
-        todoShareRepository.deleteById(id);
+        todoShareRepository.deleteById(foundId);
+
+        return foundId;
     }
 }

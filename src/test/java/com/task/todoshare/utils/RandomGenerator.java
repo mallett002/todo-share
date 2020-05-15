@@ -15,6 +15,10 @@ public class RandomGenerator {
         random = new Random();
     }
 
+    public Long getRandomLong() {
+        return random.nextLong();
+    }
+
     public String getRandomDate() {
         int randomAmountOfDays = random.nextInt(10 - 5 + 1) + 5;
         DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
@@ -40,5 +44,15 @@ public class RandomGenerator {
         body.setDueDate(getRandomDate());
 
         return body;
+    }
+
+    public TodoDTO buildNewTodoDTO() {
+        Long id = 1L;
+        String message = createRandomString();
+
+        TodoDTO todoDTO = createNewTodo(message);
+        todoDTO.setId(id);
+
+        return todoDTO;
     }
 }
