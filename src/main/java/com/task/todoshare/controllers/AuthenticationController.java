@@ -3,6 +3,7 @@ package com.task.todoshare.controllers;
 import com.task.todoshare.dto.AuthenticationRequest;
 import com.task.todoshare.dto.AuthenticationResponse;
 import com.task.todoshare.services.JwtUserDetailsService;
+import com.task.todoshare.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +25,7 @@ public class AuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtTokenUtil; // TODO: make this class
+    private JwtUtil jwtTokenUtil;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<AuthenticationResponse> createAuthorizationToken(@RequestBody AuthenticationRequest authRequest) throws Exception {
