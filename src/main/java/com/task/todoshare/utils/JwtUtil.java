@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class JwtUtil {
 
-    // make this secret more secret in real app...
+    // TODO: PUT THIS IN application.properties and pass in as env variable
     private String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {

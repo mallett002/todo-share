@@ -15,7 +15,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         // get user from database here
         // repository.getUserFromDB(userName);
 
-        // for this demo, make a fake one
+        // for now, make a fake one
         return new User("foo", "foo", new ArrayList<>());
     }
 }

@@ -38,114 +38,114 @@ public class TodoShareControllerRestTest {
     RandomGenerator generator = new RandomGenerator();
     ObjectMapper mapper = new ObjectMapper();
 
-    @Disabled
-    @Test
-    public void shouldCreateNewTodo() throws Exception {
-        TodoDTO createdDTO = generator.buildNewTodoDTO();
-
-        when(service.createTodo(any(TodoDTO.class)))
-                .thenReturn(createdDTO);
-
-        mockMvc.perform(post("/todos")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(convertToJson(createdDTO))
-            .characterEncoding("utf-8"))
-                .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(convertToJson(createdDTO)));
-    }
-
-    @Disabled
-    @Test
-    public void shouldGetATodoById() throws Exception {
-        TodoDTO todoDTO = generator.buildNewTodoDTO();
-        Long id = todoDTO.getId();
-
-        when(service.findById(id))
-                .thenReturn(todoDTO);
-
-        mockMvc.perform(get("/todos/" + id))
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(convertToJson(todoDTO)));
-    }
-
-    @Disabled
-    @Test
-    public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
-        TodoDTO todoDTO = generator.buildNewTodoDTO();
-        Long id = todoDTO.getId();
-
-        when(service.findById(id))
-                .thenThrow(new TodoNotFoundException(id));
-
-        mockMvc.perform(get("/todos/" + id))
-            .andExpect(status().isNotFound())
-            .andExpect(MockMvcResultMatchers
-                .content().string("Could not find todo item with id " + id));
-    }
-
-    @Disabled
-    @Test
-    public void shouldUpdateATodo() throws Exception {
-        TodoDTO createdDTO = generator.buildNewTodoDTO();
-        TodoDTO updatedDTO = generator.buildNewTodoDTO();
-
-        when(service.updateTodo(eq(1L), any(TodoDTO.class)))
-                .thenReturn(updatedDTO);
-
-        mockMvc.perform(put("/todos/" + 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(convertToJson(createdDTO))
-                .characterEncoding("utf-8"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(convertToJson(updatedDTO)));
-    }
-
-    @Disabled
-    @Test
-    public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
-        TodoDTO createdDTO = generator.buildNewTodoDTO();
-        Long id = createdDTO.getId();
-
-        when(service.updateTodo(eq(id), any(TodoDTO.class)))
-                .thenThrow(new TodoNotFoundException(id));
-
-        mockMvc.perform(put("/todos/" + id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(convertToJson(createdDTO))
-                .characterEncoding("utf-8"))
-                .andExpect(status().isNotFound())
-                .andExpect(MockMvcResultMatchers
-                        .content().string("Could not find todo item with id " + id));
-    }
-
-    @Disabled
-    @Test
-    public void shouldDeleteATodo() throws Exception {
-        Long id = 1L;
-
-        when(service.deleteTodo(id))
-                .thenReturn(id);
-
-        mockMvc.perform(delete("/todos/" + id))
-            .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(convertToJson(id)));
-    }
-
-    @Disabled
-    @Test
-    public void shouldNotFoundWhenDeleteTodoNotFindingById() throws Exception {
-        Long id = 1L;
-
-        when(service.deleteTodo(id))
-                .thenThrow(new TodoNotFoundException(id));
-
-        mockMvc.perform(delete("/todos/" + id))
-                .andExpect(status().isNotFound())
-                .andExpect(MockMvcResultMatchers
-                        .content().string("Could not find todo item with id " + id));
-    }
-
-    private String convertToJson(Object object) throws JsonProcessingException {
-        return mapper.writeValueAsString(object);
-    }
+//    @Disabled
+//    @Test
+//    public void shouldCreateNewTodo() throws Exception {
+//        TodoDTO createdDTO = generator.buildNewTodoDTO();
+//
+//        when(service.createTodo(any(TodoDTO.class)))
+//                .thenReturn(createdDTO);
+//
+//        mockMvc.perform(post("/todos")
+//            .contentType(MediaType.APPLICATION_JSON)
+//            .content(convertToJson(createdDTO))
+//            .characterEncoding("utf-8"))
+//                .andExpect(status().isCreated())
+//                .andExpect(MockMvcResultMatchers.content().json(convertToJson(createdDTO)));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldGetATodoById() throws Exception {
+//        TodoDTO todoDTO = generator.buildNewTodoDTO();
+//        Long id = todoDTO.getId();
+//
+//        when(service.findById(id))
+//                .thenReturn(todoDTO);
+//
+//        mockMvc.perform(get("/todos/" + id))
+//            .andExpect(status().isOk())
+//            .andExpect(MockMvcResultMatchers.content().json(convertToJson(todoDTO)));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
+//        TodoDTO todoDTO = generator.buildNewTodoDTO();
+//        Long id = todoDTO.getId();
+//
+//        when(service.findById(id))
+//                .thenThrow(new TodoNotFoundException(id));
+//
+//        mockMvc.perform(get("/todos/" + id))
+//            .andExpect(status().isNotFound())
+//            .andExpect(MockMvcResultMatchers
+//                .content().string("Could not find todo item with id " + id));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldUpdateATodo() throws Exception {
+//        TodoDTO createdDTO = generator.buildNewTodoDTO();
+//        TodoDTO updatedDTO = generator.buildNewTodoDTO();
+//
+//        when(service.updateTodo(eq(1L), any(TodoDTO.class)))
+//                .thenReturn(updatedDTO);
+//
+//        mockMvc.perform(put("/todos/" + 1L)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(convertToJson(createdDTO))
+//                .characterEncoding("utf-8"))
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().json(convertToJson(updatedDTO)));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
+//        TodoDTO createdDTO = generator.buildNewTodoDTO();
+//        Long id = createdDTO.getId();
+//
+//        when(service.updateTodo(eq(id), any(TodoDTO.class)))
+//                .thenThrow(new TodoNotFoundException(id));
+//
+//        mockMvc.perform(put("/todos/" + id)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(convertToJson(createdDTO))
+//                .characterEncoding("utf-8"))
+//                .andExpect(status().isNotFound())
+//                .andExpect(MockMvcResultMatchers
+//                        .content().string("Could not find todo item with id " + id));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldDeleteATodo() throws Exception {
+//        Long id = 1L;
+//
+//        when(service.deleteTodo(id))
+//                .thenReturn(id);
+//
+//        mockMvc.perform(delete("/todos/" + id))
+//            .andExpect(status().isOk())
+//            .andExpect(MockMvcResultMatchers.content().json(convertToJson(id)));
+//    }
+//
+//    @Disabled
+//    @Test
+//    public void shouldNotFoundWhenDeleteTodoNotFindingById() throws Exception {
+//        Long id = 1L;
+//
+//        when(service.deleteTodo(id))
+//                .thenThrow(new TodoNotFoundException(id));
+//
+//        mockMvc.perform(delete("/todos/" + id))
+//                .andExpect(status().isNotFound())
+//                .andExpect(MockMvcResultMatchers
+//                        .content().string("Could not find todo item with id " + id));
+//    }
+//
+//    private String convertToJson(Object object) throws JsonProcessingException {
+//        return mapper.writeValueAsString(object);
+//    }
 }

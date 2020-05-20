@@ -26,17 +26,17 @@ public class HomeControllerMVCTest {
     @MockBean
     private GreetingService service;
 
-    @Disabled
-    @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        String greeting = "Hello world!";
-
-        when(service.greet())
-            .thenReturn(greeting);
-
-        mockMvc.perform(get("/"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString(greeting)));
-    }
+//    @Disabled
+//    @Test
+//    public void shouldReturnDefaultMessage() throws Exception {
+//        String greeting = "Hello world!";
+//
+//        when(service.greet())
+//            .thenReturn(greeting);
+//
+//        mockMvc.perform(get("/"))
+//            .andDo(print())
+//            .andExpect(status().isOk())
+//            .andExpect(content().string(containsString(greeting)));
+//    }
 }
