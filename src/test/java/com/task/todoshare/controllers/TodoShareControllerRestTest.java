@@ -46,7 +46,7 @@ public class TodoShareControllerRestTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldCreateNewTodo() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
 
@@ -62,7 +62,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldGetATodoById() throws Exception {
         TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
@@ -76,7 +76,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
         TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
@@ -91,7 +91,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldUpdateATodo() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
         TodoDTO updatedDTO = generator.buildNewTodoDTO();
@@ -108,7 +108,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
         Long id = createdDTO.getId();
@@ -126,7 +126,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldDeleteATodo() throws Exception {
         Long id = 1L;
 
@@ -139,7 +139,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldNotFoundWhenDeleteTodoNotFindingById() throws Exception {
         Long id = 1L;
 

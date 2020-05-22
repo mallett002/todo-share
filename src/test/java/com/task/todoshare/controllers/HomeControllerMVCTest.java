@@ -29,7 +29,7 @@ public class HomeControllerMVCTest {
     private GreetingService service;
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser
     public void shouldReturnDefaultMessage() throws Exception {
         String greeting = "Hello world!";
 
