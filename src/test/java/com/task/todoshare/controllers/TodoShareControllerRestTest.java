@@ -3,6 +3,7 @@ package com.task.todoshare.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task.todoshare.dto.TodoDTO;
+import com.task.todoshare.services.JwtUserDetailsService;
 import com.task.todoshare.services.TodoShareService;
 import com.task.todoshare.utils.RandomGenerator;
 import com.task.todoshare.utils.TodoNotFoundException;
@@ -13,18 +14,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+//TODO: Consider defining a bean of type 'com.task.todoshare.services.JwtUserDetailsService' in your TEST configuration.
 
 @WebMvcTest(TodoShareControllerRest.class)
 @ExtendWith(MockitoExtension.class)
 public class TodoShareControllerRestTest {
+    private final static String TEST_USER_ID = "user-id-123";
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,10 +39,14 @@ public class TodoShareControllerRestTest {
     @MockBean
     private TodoShareService service;
 
+    @MockBean
+    private JwtUserDetailsService jwtUserDetailsService;
+
     RandomGenerator generator = new RandomGenerator();
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
+    @WithMockUser
     public void shouldCreateNewTodo() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
 
@@ -51,6 +62,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldGetATodoById() throws Exception {
         TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
@@ -64,6 +76,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturnNotFoundWhenFindByIdCantFindById() throws Exception {
         TodoDTO todoDTO = generator.buildNewTodoDTO();
         Long id = todoDTO.getId();
@@ -78,6 +91,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldUpdateATodo() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
         TodoDTO updatedDTO = generator.buildNewTodoDTO();
@@ -94,6 +108,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldReturnNotFoundWhenUpdateTodoCantFindById() throws Exception {
         TodoDTO createdDTO = generator.buildNewTodoDTO();
         Long id = createdDTO.getId();
@@ -111,6 +126,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldDeleteATodo() throws Exception {
         Long id = 1L;
 
@@ -123,6 +139,7 @@ public class TodoShareControllerRestTest {
     }
 
     @Test
+    @WithMockUser
     public void shouldNotFoundWhenDeleteTodoNotFindingById() throws Exception {
         Long id = 1L;
 

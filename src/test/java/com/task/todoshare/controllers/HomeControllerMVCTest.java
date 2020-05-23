@@ -1,12 +1,12 @@
 package com.task.todoshare.controllers;
 
 import com.task.todoshare.services.GreetingService;
+import com.task.todoshare.services.JwtUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// Simplified with WebMvcTest:
 @WebMvcTest(HomeController.class)
 public class HomeControllerMVCTest {
 
@@ -24,9 +23,13 @@ public class HomeControllerMVCTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private JwtUserDetailsService jwtUserDetailsService;
+
+    @MockBean
     private GreetingService service;
 
     @Test
+    @WithMockUser
     public void shouldReturnDefaultMessage() throws Exception {
         String greeting = "Hello world!";
 
