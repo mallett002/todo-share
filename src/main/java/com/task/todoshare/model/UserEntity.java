@@ -1,22 +1,37 @@
 package com.task.todoshare.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
     private String username;
-    private String password;
-    private String fullname;
 
-    public UserEntity(String username, String password, String fullname) {
+    private String password;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    @OneToMany(mappedBy = "userId", cascade = {CascadeType.PERSIST})
+    private List<TodoEntity> todos = new ArrayList<>();
+
+    public UserEntity(String username, String password, String fullName) {
         this.username = username;
         this.password = password;
-        this.fullname = fullname;
+        this.fullName = fullName;
+    }
+
+    public void addTodo(TodoEntity todo) {
+        todos.add(todo);
+        todo.setUserId(id);
     }
 
     public Long getId() {
@@ -44,10 +59,12 @@ public class UserEntity {
     }
 
     public String getFullname() {
-        return fullname;
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullname(String fullName) {
+        this.fullName = fullName;
     }
+
+    public List<TodoEntity> getTodos() { return todos; }
 }

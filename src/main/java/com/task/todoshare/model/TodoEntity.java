@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class TodoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
     Long id;
 
     @Column(name = "message")
@@ -16,8 +17,9 @@ public class TodoEntity {
     @Column(name = "completed")
     boolean isCompleted;
 
-    @Column(name = "user_id")
-    String userId;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "user_id")
+    Long userId;
 
     @Column(name = "private")
     boolean isPrivate;
@@ -49,11 +51,11 @@ public class TodoEntity {
         isCompleted = completed;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
