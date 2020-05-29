@@ -1,8 +1,9 @@
 package com.task.todoshare.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbl_user")
@@ -20,8 +21,10 @@ public class UserEntity {
     @Column(name = "full_name")
     private String fullName;
 
-    @OneToMany(mappedBy = "userId", cascade = {CascadeType.PERSIST})
-    private List<TodoEntity> todos = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST})
+    private Set<TodoEntity> todos = new HashSet<>();
+
+    public UserEntity() {}
 
     public UserEntity(String username, String password, String fullName) {
         this.username = username;
@@ -31,8 +34,10 @@ public class UserEntity {
 
     public void addTodo(TodoEntity todo) {
         todos.add(todo);
-        todo.setUserId(id);
+        todo.setUser(this);
     }
+
+    public Set<TodoEntity> getTodos() {return this.todos;}
 
     public Long getId() {
         return id;
@@ -58,13 +63,22 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getFullname() {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullname(String fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public List<TodoEntity> getTodos() { return todos; }
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", todos=" + todos +
+                '}';
+    }
 }

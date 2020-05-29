@@ -2,6 +2,7 @@ package com.task.todoshare.services;
 
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
+import com.task.todoshare.model.UserEntity;
 import com.task.todoshare.repository.TodoShareRepository;
 import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +14,28 @@ public class TodoShareService {
     @Autowired
     TodoShareRepository todoShareRepository;
 
+    @Autowired
+    UserInfoService userInfoService;
+
     private TodoDTO mapToDTO(TodoEntity todoEntity) {
         TodoDTO dto = new TodoDTO();
 
         dto.setId(todoEntity.getId());
         dto.setMessage(todoEntity.getMessage());
         dto.setCompleted(todoEntity.getCompleted());
-        dto.setUserId(todoEntity.getUserId());
+        dto.setUserId(todoEntity.getUser().getId());
         dto.setPrivate(todoEntity.getPrivate());
         dto.setDueDate(todoEntity.getDueDate());
 
         return dto;
     }
 
-    private TodoEntity mapToEntity(TodoDTO dto) {
+    private TodoEntity mapToEntity(TodoDTO dto, UserEntity user) {
         TodoEntity todoEntity = new TodoEntity();
 
         todoEntity.setMessage(dto.getMessage());
         todoEntity.setCompleted(dto.getCompleted());
-        todoEntity.setUserId(dto.getUserId());
+        todoEntity.setUser(user);
         todoEntity.setPrivate(dto.getPrivate());
         todoEntity.setDueDate(dto.getDueDate());
 
@@ -39,10 +43,12 @@ public class TodoShareService {
     }
 
     public TodoDTO createTodo(TodoDTO postDTO) {
-        TodoEntity entityToPersist = mapToEntity(postDTO);
-        TodoEntity persistedEntity = todoShareRepository.save(entityToPersist);
+        UserEntity user = userInfoService.findUserById(postDTO.getUserId());
+        TodoEntity todoEntity = mapToEntity(postDTO, user);
 
-        return mapToDTO(persistedEntity);
+        TodoEntity persistedTodoEntity = todoShareRepository.save(todoEntity);
+
+        return mapToDTO(persistedTodoEntity);
     }
 
     public TodoDTO findById(Long id) {

@@ -4,12 +4,9 @@ import com.task.todoshare.dto.UserInfoDTO;
 import com.task.todoshare.model.UserEntity;
 import com.task.todoshare.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.ValidationException;
-import java.security.NoSuchAlgorithmException;
 
 @Service
 public class UserInfoService {
@@ -35,5 +32,10 @@ public class UserInfoService {
         ));
 
         return userInfoDTO;
+    }
+
+    public UserEntity findUserById(Long id) {
+        return userInfoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException(id.toString()));
     }
 }

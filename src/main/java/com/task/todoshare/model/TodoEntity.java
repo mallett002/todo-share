@@ -9,17 +9,17 @@ public class TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "todo_id")
-    Long id;
+    private Long id;
 
     @Column(name = "message")
-    String message;
+    private String message;
 
     @Column(name = "completed")
-    boolean isCompleted;
+    private boolean isCompleted;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "user_id")
-    Long userId;
+    private UserEntity user;
 
     @Column(name = "private")
     boolean isPrivate;
@@ -51,12 +51,12 @@ public class TodoEntity {
         isCompleted = completed;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public boolean getPrivate() {
@@ -81,7 +81,7 @@ public class TodoEntity {
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", isCompleted=" + isCompleted +
-                ", userId='" + userId + '\'' +
+                ", user=" + user +
                 ", isPrivate=" + isPrivate +
                 ", dueDate='" + dueDate + '\'' +
                 '}';
