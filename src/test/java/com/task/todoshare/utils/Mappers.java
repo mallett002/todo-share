@@ -10,9 +10,9 @@ public class Mappers {
 
         dto.setId(todoEntity.getId());
         dto.setMessage(todoEntity.getMessage());
-        dto.setCompleted(todoEntity.getCompleted());
+        dto.setIsCompleted(todoEntity.getIsCompleted());
         dto.setUserId(todoEntity.getUser().getId());
-        dto.setPrivate(todoEntity.getPrivate());
+        dto.setIsPrivate(todoEntity.getIsPrivate());
         dto.setDueDate(todoEntity.getDueDate());
 
         return dto;
@@ -23,9 +23,9 @@ public class Mappers {
 
         todoEntity.setId(dto.getId());
         todoEntity.setMessage(dto.getMessage());
-        todoEntity.setCompleted(dto.getCompleted());
+        todoEntity.setIsCompleted(dto.getIsCompleted());
         todoEntity.setUser(user);
-        todoEntity.setPrivate(dto.getPrivate());
+        todoEntity.setIsPrivate(dto.getIsPrivate());
         todoEntity.setDueDate(dto.getDueDate());
 
         return todoEntity;

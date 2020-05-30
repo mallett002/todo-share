@@ -22,10 +22,10 @@ public class TodoEntity {
     private UserEntity user;
 
     @Column(name = "private")
-    boolean isPrivate;
+    private boolean isPrivate;
 
     @Column(name = "due_date")
-    String dueDate;
+    private String dueDate;
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class TodoEntity {
         this.message = message;
     }
 
-    public boolean getCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 
@@ -59,11 +59,11 @@ public class TodoEntity {
         this.user = user;
     }
 
-    public boolean getPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(boolean aPrivate) {
+    public void setIsPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 

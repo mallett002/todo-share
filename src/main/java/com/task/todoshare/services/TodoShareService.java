@@ -28,9 +28,9 @@ public class TodoShareService {
 
         dto.setId(todoEntity.getId());
         dto.setMessage(todoEntity.getMessage());
-        dto.setCompleted(todoEntity.getCompleted());
+        dto.setIsCompleted(todoEntity.getIsCompleted());
         dto.setUserId(todoEntity.getUser().getId());
-        dto.setPrivate(todoEntity.getPrivate());
+        dto.setIsPrivate(todoEntity.getIsPrivate());
         dto.setDueDate(todoEntity.getDueDate());
 
         return dto;
@@ -40,9 +40,9 @@ public class TodoShareService {
         TodoEntity todoEntity = new TodoEntity();
 
         todoEntity.setMessage(dto.getMessage());
-        todoEntity.setCompleted(dto.getCompleted());
+        todoEntity.setIsCompleted(dto.getIsCompleted());
         todoEntity.setUser(user);
-        todoEntity.setPrivate(dto.getPrivate());
+        todoEntity.setIsPrivate(dto.getIsPrivate());
         todoEntity.setDueDate(dto.getDueDate());
 
         return todoEntity;
@@ -62,7 +62,7 @@ public class TodoShareService {
         TodoListResponse response = new TodoListResponse();
 
         StreamSupport.stream(todoEntities.spliterator(), false)
-            .filter((todo) -> !todo.getPrivate())
+            .filter((todo) -> !todo.getIsPrivate())
             .map(this::mapToDTO)
             .forEach(response::addTodo);
 
@@ -92,8 +92,8 @@ public class TodoShareService {
                 .orElseThrow(() -> new TodoNotFoundException(id));
 
         todoEntity.setMessage(updateDTO.getMessage());
-        todoEntity.setCompleted(updateDTO.getCompleted());
-        todoEntity.setPrivate(updateDTO.getPrivate());
+        todoEntity.setIsCompleted(updateDTO.getIsCompleted());
+        todoEntity.setIsPrivate(updateDTO.getIsPrivate());
         todoEntity.setDueDate(updateDTO.getDueDate());
 
         TodoEntity persistedEntity = todoShareRepository.save(todoEntity);
