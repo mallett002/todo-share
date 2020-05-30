@@ -52,4 +52,20 @@ public class AuthenticationController {
             throw new Exception("Incorrect username or password", e);
         }
     }
+
+//    @RequestMapping(value = "/unauthenticate")
+//    public ResponseEntity<?> unauthenticateUser() {
+        /*
+        https://stackoverflow.com/questions/43569723/jwt-authentication-how-to-implement-logout
+        Options:
+        1- No endpoint needed. Just remove the jwt from the client
+        2- Store jwt in database (kind of defeats the purpose of stateless jwt though
+        3- Short token lifetime
+        4- Rotate tokens. Refresh tokens. Give Jwt & refresh token, store refresh token in DB.
+            -Authenticated requests: Client uses Jwt
+            -When token expires (or about to) client requests with refresh token in exchange for new JWT.
+            -When log out, invalidate stored refresh token (or someone could get a new JWT even though user is logged out
+        5- Remove valid token from authentication manager (I like this one)
+        */
+//    }
 }
