@@ -17,8 +17,8 @@ public class TodoEntity {
     @Column(name = "completed")
     private boolean isCompleted;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @Column(name = "private")

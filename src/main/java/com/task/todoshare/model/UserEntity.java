@@ -20,7 +20,7 @@ public class UserEntity {
     @Column(name = "full_name")
     private String fullName;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<TodoEntity> todos;
 
     public UserEntity() {}
@@ -69,16 +69,5 @@ public class UserEntity {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", todos=" + todos +
-                '}';
     }
 }
