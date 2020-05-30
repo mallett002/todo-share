@@ -1,6 +1,7 @@
 package com.task.todoshare.services;
 
 import com.task.todoshare.dto.UserInfoDTO;
+import com.task.todoshare.exceptions.UserNotFoundException;
 import com.task.todoshare.model.UserEntity;
 import com.task.todoshare.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,21 @@ public class UserInfoService {
         String encryptedPassword = new BCryptPasswordEncoder().encode(userInfoDTO.getPassword());
         String fullName = userInfoDTO.getFullName();
 
-        userInfoRepository.save(new UserEntity(
-                username,
-                encryptedPassword,
-                fullName
-        ));
+        try {
+            userInfoRepository.save(new UserEntity(
+                    username,
+                    encryptedPassword,
+                    fullName
+            ));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         return userInfoDTO;
     }
 
     public UserEntity findUserById(Long id) {
         return userInfoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException(id.toString()));
+            .orElseThrow(() -> new UserNotFoundException(id));
     }
 }

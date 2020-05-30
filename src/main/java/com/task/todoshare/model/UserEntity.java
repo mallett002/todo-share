@@ -2,7 +2,6 @@ package com.task.todoshare.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +21,7 @@ public class UserEntity {
     private String fullName;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST})
-    private Set<TodoEntity> todos = new HashSet<>();
+    private Set<TodoEntity> todos;
 
     public UserEntity() {}
 
@@ -30,6 +29,7 @@ public class UserEntity {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
+        this.todos = new HashSet<>();
     }
 
     public void addTodo(TodoEntity todo) {

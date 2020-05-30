@@ -16,11 +16,11 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create-user", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserInfoDTO> createUser(@RequestBody UserInfoDTO userInfoDTO, UriComponentsBuilder builder) {
         UserInfoDTO response = userInfoService.createUser(userInfoDTO);
 
-        UriComponents uriComponents = builder.path("/user").build();
+        UriComponents uriComponents = builder.path("/create-user").build();
 
         return ResponseEntity.created(uriComponents.toUri()).body(response);
     }

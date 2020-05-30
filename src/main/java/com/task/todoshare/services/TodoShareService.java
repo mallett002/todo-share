@@ -1,12 +1,18 @@
 package com.task.todoshare.services;
 
 import com.task.todoshare.dto.TodoDTO;
+import com.task.todoshare.dto.TodoListResponse;
 import com.task.todoshare.model.TodoEntity;
 import com.task.todoshare.model.UserEntity;
 import com.task.todoshare.repository.TodoShareRepository;
 import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class TodoShareService {
@@ -49,6 +55,29 @@ public class TodoShareService {
         TodoEntity persistedTodoEntity = todoShareRepository.save(todoEntity);
 
         return mapToDTO(persistedTodoEntity);
+    }
+
+    public TodoListResponse getAllPublicTodos() {
+        Iterable<TodoEntity> todoEntities = todoShareRepository.findAll();
+        TodoListResponse response = new TodoListResponse();
+
+        StreamSupport.stream(todoEntities.spliterator(), false)
+            .filter((todo) -> !todo.getPrivate())
+            .map(this::mapToDTO)
+            .forEach(response::addTodo);
+
+        return response;
+    }
+
+    public TodoListResponse getTodosForUser(Long userId) {
+        UserEntity user = userInfoService.findUserById(userId);
+        TodoListResponse response = new TodoListResponse();
+
+        user.getTodos().stream()
+            .map(this::mapToDTO)
+            .forEach(response::addTodo);
+
+        return response;
     }
 
     public TodoDTO findById(Long id) {
