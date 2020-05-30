@@ -56,16 +56,4 @@ public class TodoDTO {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
-
-    @Override
-    public String toString() {
-        return "TodoDTO{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", isCompleted=" + isCompleted +
-                ", userId='" + userId + '\'' +
-                ", isPrivate=" + isPrivate +
-                ", dueDate='" + dueDate + '\'' +
-                '}';
-    }
 }

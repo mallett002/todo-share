@@ -74,16 +74,4 @@ public class TodoEntity {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
-
-    @Override
-    public String toString() {
-        return "TodoEntity{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", isCompleted=" + isCompleted +
-                ", user=" + user +
-                ", isPrivate=" + isPrivate +
-                ", dueDate='" + dueDate + '\'' +
-                '}';
-    }
 }

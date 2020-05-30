@@ -17,4 +17,6 @@ public class TodoListResponse {
     public void addTodo(TodoDTO todo) {
         todos.add(todo);
     }
+
+    public List<TodoDTO> getTodos() { return todos; }
 }
