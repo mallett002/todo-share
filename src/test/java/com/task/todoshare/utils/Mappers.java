@@ -2,6 +2,7 @@ package com.task.todoshare.utils;
 
 import com.task.todoshare.dto.TodoDTO;
 import com.task.todoshare.model.TodoEntity;
+import com.task.todoshare.model.UserEntity;
 
 public class Mappers {
     public TodoDTO mapToDTO(TodoEntity todoEntity) {
@@ -9,22 +10,22 @@ public class Mappers {
 
         dto.setId(todoEntity.getId());
         dto.setMessage(todoEntity.getMessage());
-        dto.setCompleted(todoEntity.getCompleted());
-        dto.setUserId(todoEntity.getUserId());
-        dto.setPrivate(todoEntity.getPrivate());
+        dto.setIsCompleted(todoEntity.getIsCompleted());
+        dto.setUserId(todoEntity.getUser().getId());
+        dto.setIsPrivate(todoEntity.getIsPrivate());
         dto.setDueDate(todoEntity.getDueDate());
 
         return dto;
     }
 
-    public TodoEntity mapToEntity(TodoDTO dto) {
+    public TodoEntity mapToEntity(TodoDTO dto, UserEntity user) {
         TodoEntity todoEntity = new TodoEntity();
 
         todoEntity.setId(dto.getId());
         todoEntity.setMessage(dto.getMessage());
-        todoEntity.setCompleted(dto.getCompleted());
-        todoEntity.setUserId(dto.getUserId());
-        todoEntity.setPrivate(dto.getPrivate());
+        todoEntity.setIsCompleted(dto.getIsCompleted());
+        todoEntity.setUser(user);
+        todoEntity.setIsPrivate(dto.getIsPrivate());
         todoEntity.setDueDate(dto.getDueDate());
 
         return todoEntity;

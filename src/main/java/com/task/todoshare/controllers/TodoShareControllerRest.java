@@ -1,14 +1,15 @@
 package com.task.todoshare.controllers;
 
 import com.task.todoshare.dto.TodoDTO;
+import com.task.todoshare.dto.TodoListResponse;
 import com.task.todoshare.services.TodoShareService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
 
 @RestController
 public class TodoShareControllerRest {
@@ -23,6 +24,20 @@ public class TodoShareControllerRest {
         UriComponents uriComponents = builder.path("/todos").build();
 
         return ResponseEntity.created(uriComponents.toUri()).body(response);
+    }
+
+    @GetMapping(value = "/todos")
+    public ResponseEntity<TodoListResponse> getAllPublicTodos() {
+        TodoListResponse response = todoShareService.getAllPublicTodos();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/users/{id}/todos")
+    public ResponseEntity<TodoListResponse> getTodosForUser(@PathVariable Long id) {
+        TodoListResponse response = todoShareService.getTodosForUser(id);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/todos/{id}")

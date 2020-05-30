@@ -1,11 +1,18 @@
 package com.task.todoshare.services;
 
 import com.task.todoshare.dto.TodoDTO;
+import com.task.todoshare.dto.TodoListResponse;
 import com.task.todoshare.model.TodoEntity;
+import com.task.todoshare.model.UserEntity;
 import com.task.todoshare.repository.TodoShareRepository;
 import com.task.todoshare.utils.TodoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class TodoShareService {
@@ -13,36 +20,64 @@ public class TodoShareService {
     @Autowired
     TodoShareRepository todoShareRepository;
 
+    @Autowired
+    UserInfoService userInfoService;
+
     private TodoDTO mapToDTO(TodoEntity todoEntity) {
         TodoDTO dto = new TodoDTO();
 
         dto.setId(todoEntity.getId());
         dto.setMessage(todoEntity.getMessage());
-        dto.setCompleted(todoEntity.getCompleted());
-        dto.setUserId(todoEntity.getUserId());
-        dto.setPrivate(todoEntity.getPrivate());
+        dto.setIsCompleted(todoEntity.getIsCompleted());
+        dto.setUserId(todoEntity.getUser().getId());
+        dto.setIsPrivate(todoEntity.getIsPrivate());
         dto.setDueDate(todoEntity.getDueDate());
 
         return dto;
     }
 
-    private TodoEntity mapToEntity(TodoDTO dto) {
+    private TodoEntity mapToEntity(TodoDTO dto, UserEntity user) {
         TodoEntity todoEntity = new TodoEntity();
 
         todoEntity.setMessage(dto.getMessage());
-        todoEntity.setCompleted(dto.getCompleted());
-        todoEntity.setUserId(dto.getUserId());
-        todoEntity.setPrivate(dto.getPrivate());
+        todoEntity.setIsCompleted(dto.getIsCompleted());
+        todoEntity.setUser(user);
+        todoEntity.setIsPrivate(dto.getIsPrivate());
         todoEntity.setDueDate(dto.getDueDate());
 
         return todoEntity;
     }
 
     public TodoDTO createTodo(TodoDTO postDTO) {
-        TodoEntity entityToPersist = mapToEntity(postDTO);
-        TodoEntity persistedEntity = todoShareRepository.save(entityToPersist);
+        UserEntity user = userInfoService.findUserById(postDTO.getUserId());
+        TodoEntity todoEntity = mapToEntity(postDTO, user);
 
-        return mapToDTO(persistedEntity);
+        TodoEntity persistedTodoEntity = todoShareRepository.save(todoEntity);
+
+        return mapToDTO(persistedTodoEntity);
+    }
+
+    public TodoListResponse getAllPublicTodos() {
+        Iterable<TodoEntity> todoEntities = todoShareRepository.findAll();
+        TodoListResponse response = new TodoListResponse();
+
+        StreamSupport.stream(todoEntities.spliterator(), false)
+            .filter((todo) -> !todo.getIsPrivate())
+            .map(this::mapToDTO)
+            .forEach(response::addTodo);
+
+        return response;
+    }
+
+    public TodoListResponse getTodosForUser(Long userId) {
+        UserEntity user = userInfoService.findUserById(userId);
+        TodoListResponse response = new TodoListResponse();
+
+        user.getTodos().stream()
+            .map(this::mapToDTO)
+            .forEach(response::addTodo);
+
+        return response;
     }
 
     public TodoDTO findById(Long id) {
@@ -57,8 +92,8 @@ public class TodoShareService {
                 .orElseThrow(() -> new TodoNotFoundException(id));
 
         todoEntity.setMessage(updateDTO.getMessage());
-        todoEntity.setCompleted(updateDTO.getCompleted());
-        todoEntity.setPrivate(updateDTO.getPrivate());
+        todoEntity.setIsCompleted(updateDTO.getIsCompleted());
+        todoEntity.setIsPrivate(updateDTO.getIsPrivate());
         todoEntity.setDueDate(updateDTO.getDueDate());
 
         TodoEntity persistedEntity = todoShareRepository.save(todoEntity);

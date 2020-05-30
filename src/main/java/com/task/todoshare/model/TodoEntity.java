@@ -7,23 +7,25 @@ import javax.persistence.*;
 public class TodoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
+    private Long id;
 
     @Column(name = "message")
-    String message;
+    private String message;
 
     @Column(name = "completed")
-    boolean isCompleted;
+    private boolean isCompleted;
 
-    @Column(name = "user_id")
-    String userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
     @Column(name = "private")
-    boolean isPrivate;
+    private boolean isPrivate;
 
     @Column(name = "due_date")
-    String dueDate;
+    private String dueDate;
 
     public Long getId() {
         return id;
@@ -41,27 +43,27 @@ public class TodoEntity {
         this.message = message;
     }
 
-    public boolean getCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 
-    public String getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    public boolean getPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(boolean aPrivate) {
+    public void setIsPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
@@ -71,17 +73,5 @@ public class TodoEntity {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
-    }
-
-    @Override
-    public String toString() {
-        return "TodoEntity{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", isCompleted=" + isCompleted +
-                ", userId='" + userId + '\'' +
-                ", isPrivate=" + isPrivate +
-                ", dueDate='" + dueDate + '\'' +
-                '}';
     }
 }

@@ -1,12 +1,13 @@
 package com.task.todoshare.dto;
 
+
 public class TodoDTO {
-    Long id;
-    String message;
-    boolean isCompleted;
-    String userId;
-    boolean isPrivate;
-    String dueDate;
+    private Long id;
+    private String message;
+    private boolean isCompleted;
+    private Long userId;
+    private boolean isPrivate;
+    private String dueDate;
 
     public Long getId() {
         return id;
@@ -24,27 +25,27 @@ public class TodoDTO {
         this.message = message;
     }
 
-    public boolean getCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setIsCompleted(boolean completed) {
         isCompleted = completed;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public boolean getPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(boolean aPrivate) {
+    public void setIsPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
 
@@ -54,17 +55,5 @@ public class TodoDTO {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
-    }
-
-    @Override
-    public String toString() {
-        return "TodoDTO{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", isCompleted=" + isCompleted +
-                ", userId='" + userId + '\'' +
-                ", isPrivate=" + isPrivate +
-                ", dueDate='" + dueDate + '\'' +
-                '}';
     }
 }
