@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class UserInfoController {
     @Autowired
@@ -23,17 +27,19 @@ public class UserInfoController {
         return ResponseEntity.created(uriComponents.toUri()).body(response);
     }
 
-//    @GetMapping(value = "/users/{id}/log-out")
-//    public ResponseEntity<?> unauthenticateUser(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//
-//            return ResponseEntity.ok("Successfully logged used out");
-//        }
-//
-//        return (ResponseEntity<?>) ResponseEntity.badRequest();
-//    }
+    @GetMapping(value = "/log-out")
+    public HttpServletResponse logUserOut(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
 
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : request.getCookies()) {
+                String cookieName = cookie.getName();
+                Cookie cookieToDelete = new Cookie(cookieName, null);
+                cookieToDelete.setMaxAge(0);
+                response.addCookie(cookieToDelete);
+            }
+        }
+
+        return response;
+    }
 }
