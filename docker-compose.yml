@@ -2,7 +2,33 @@ version: '3'
 
 services:
   app:
-    build: .
-    image: todo-share-image
+    image: mallett002/todoshare:latest
+    network_mode: bridge
+    container_name: todoshare
+    expose:
+      - 8080
     ports:
       - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    links:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    network_mode: bridge
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
