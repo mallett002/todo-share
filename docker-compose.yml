@@ -1,34 +1,35 @@
 version: '3'
 
 services:
-  app:
-    image: mallett002/todoshare:latest
-    network_mode: bridge
+  todoshare-server:
+    build: .
     container_name: todoshare
-    expose:
-      - 8080
     ports:
-      - 8080:8080
-    restart: unless-stopped
+      - "8080:8080"
+    restart: always
     depends_on:
-      - postgres
-    links:
-      - postgres
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/todosharedb
+      SPRING_DATASOURCE_USERNAME: testuser
+      SPRING_DATASOURCE_PASSWORD: password
+    networks:
+      - backend
+  db:
+    image: postgres
     network_mode: bridge
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    expose:
-      - 5432
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
-    restart: unless-stopped
+      - POSTGRES_USER=testuser
+      - POSTGRES_DB=todosharedb
+    restart: always
 
 volumes:
   postgres-data:
+
+networks:
+  backend:
